@@ -5,6 +5,13 @@ public class UrtleCode : MonoBehaviour {
 
 	public float maxSpeed = 11f;
 	bool right = true; //for flipping
+	bool ground = false;
+	public Transform groundChk;
+	float groundRds = 0.2f;
+	public float jumpForce = 200f;
+	public LayerMask isGround;
+
+
 	Animator a;
 
 
@@ -12,9 +19,23 @@ public class UrtleCode : MonoBehaviour {
 	void Start () {
 		a = GetComponent<Animator> ();
 	}
-	
+
+	void Update () {
+		if (ground && Input.GetKeyDown (KeyCode.UpArrow)) {
+			a.SetBool("Ground", false);
+				GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpForce));
+		}
+
+	}
+
+
 	// Update is called once per frame
 	void FixedUpdate () {
+
+		ground = Physics2D.OverlapCircle (groundChk.position, groundRds, isGround);
+		a.SetBool ("Ground", ground);
+		a.SetFloat ("Vertical Speed", GetComponent<Rigidbody2D> ().velocity.y);
+
 		float move = Input.GetAxis ("Horizontal");
 		float velY = GetComponent<Rigidbody2D> ().velocity.y;
 
@@ -38,5 +59,7 @@ public class UrtleCode : MonoBehaviour {
 		scale.x *= -1;
 		transform.localScale = scale;
 	}
-			
+		
+//
+//	void OnTriggerEnter 
 }
