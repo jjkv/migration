@@ -85,7 +85,6 @@
 -define:UNITY_EDITOR_64
 -define:UNITY_EDITOR_OSX
 -define:UNITY_TEAM_LICENSE
-'Assets/Scripts/GameManager.cs'
 'Assets/Scripts/SharkCode.cs'
 'Assets/Scripts/UrtleCode.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
