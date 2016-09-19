@@ -60,9 +60,14 @@ public class UrtleCode : MonoBehaviour {
 		transform.localScale = scale;
 	}
 		
+	void OnTriggerEnter2D(Collider2D other){
 
-//	void OnTriggerEnter2D(Collider2D other){
-//		if (other.CompareTag ("Ladder")) {
-//		}
-//	}
+		if(other.CompareTag("Puzzle Piece")){
+			Destroy(other.gameObject);
+			//GameManager.AddPoints (1);
+			//if (other.CompareTag ("Ladder")) {
+				//		}
+		}
+	}
+
 }
