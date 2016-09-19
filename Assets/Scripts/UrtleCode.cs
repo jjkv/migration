@@ -8,7 +8,7 @@ public class UrtleCode : MonoBehaviour {
 	bool ground = false;
 	public Transform groundChk;
 	float groundRds = 0.2f;
-	public float jumpForce = 200f;
+	public float jumpForce = 500f;
 	public LayerMask isGround;
 
 
@@ -21,7 +21,7 @@ public class UrtleCode : MonoBehaviour {
 	}
 
 	void Update () {
-		if (ground && Input.GetKeyDown (KeyCode.UpArrow)) {
+		if (ground && Input.GetKeyDown (KeyCode.Space)) {
 			a.SetBool("Ground", false);
 				GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpForce));
 		}
@@ -60,6 +60,9 @@ public class UrtleCode : MonoBehaviour {
 		transform.localScale = scale;
 	}
 		
-//
-//	void OnTriggerEnter 
+
+//	void OnTriggerEnter2D(Collider2D other){
+//		if (other.CompareTag ("Ladder")) {
+//		}
+//	}
 }

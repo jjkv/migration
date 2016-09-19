@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UrtleCode.cs">
+    <Files>
+      <File FileName="Assets/Scripts/SharkCode.cs" Line="30" Column="4" />
+      <File FileName="Assets/Scripts/UrtleCode.cs" Line="24" Column="48" />
+      <File FileName="../../../Downloads/Shootemup_solution/Assets/Scripts/SpaceShip.cs" Line="32" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
