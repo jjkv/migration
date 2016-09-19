@@ -30,9 +30,7 @@ public class UrtleCode : MonoBehaviour {
 
 		if(other.CompareTag("Puzzle Piece")){
 			Destroy(other.gameObject);
-			//GameManager.AddPoints (1);
-			//if (other.CompareTag ("Ladder")) {
-			//		}
+			GameManager.CollectPiece (1);
 		}
 	}
 
