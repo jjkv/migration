@@ -1,76 +1,103 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class UrtleCode : MonoBehaviour {
 
-	public float maxSpeed = 11f;
-	bool right = true; //for flipping
+	enum Movement{Normal, Climb}
+	Movement movement = Movement.Normal;
+		
+	public float maxSpeed = 9f;
+	public float jumpForce = 500f;
+	float groundRds = 0.2f;
+
 	bool ground = false;
 	bool climb = false;
+	bool right = true;
+	private Collider2D ignored;
 	public Transform groundChk;
-	float groundRds = 0.2f;
-	public float jumpForce = 500f;
 	public LayerMask isGround;
 
-
-	private Animator a;
-	private Rigidbody2D r;
+	private Animator anim;
+	private Rigidbody2D rb;
 
 
 	// Use this for initialization
 	void Start () {
-		a = GetComponent<Animator> ();
+		rb = GetComponent<Rigidbody2D> ();
+		anim = GetComponent<Animator> ();
 	}
 
-	void OnTriggerEnter2D(Collider2D other){
-
-		if (other.CompareTag ("Ladder") && Input.GetKeyDown (KeyCode.UpArrow)) {
+	void OnTriggerEnter2D (Collider2D other) {
+		if (other.CompareTag ("Ladder")) {
 			climb = true;
 		}
-
-		if(other.CompareTag("Puzzle Piece")){
-			Destroy(other.gameObject);
-			GameManager.CollectPiece (1);
-		}
 	}
 
+	void OnCollisionStay2D (Collision2D col) {
+		if (col.collider.tag == "Platform") {
+			if (movement == Movement.Climb && Input.GetKey (KeyCode.DownArrow)) {
+				Debug.Log ("open");
+				Physics2D.IgnoreCollision (GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D> (), col.collider);
+				ignored = col.collider;
+			}
+		}
+	}
+//
+//	void OnCollisionExit2D (Collision2D col) {
+//		if (col.collider.tag == "Platform") {
+//			if (movement == Movement.Climb && Input.GetKey (KeyCode.DownArrow)) {
+//				Debug.Log ("got out");
+//				Physics2D.IgnoreCollision (GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D>(), col.collider, false);
+//			}
+//		}
+//	}
+
+	void OnTriggerStay2D (Collider2D other) {
+		if (other.CompareTag("Ladder")) {
+			climb = true;
+		} 
+	}
+	
+	void OnTriggerExit2D (Collider2D other) {
+		if (other.CompareTag ("Ladder")) {
+			anim.SetBool ("Climb", false);
+			climb = false;
+			if (ignored) {
+				Physics2D.IgnoreCollision (GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D> (), ignored, false);
+				ignored = null;
+			}
+			rb.gravityScale = 1;
+			movement = Movement.Normal;
+		} 
+	}
 
 	// Update is called once per frame
 	void Update () {
-		if (ground && Input.GetKeyDown (KeyCode.UpArrow)) {
-			a.SetBool("Ground", false);
-				GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpForce));
-		}
+		if (climb && (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.DownArrow))) {
+			movement = Movement.Climb;
+			anim.SetBool ("Climb", climb);
+		} else if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			rb.gravityScale = 1;
+			movement = Movement.Normal;
+			anim.SetBool ("Ground", false);
+			if (ground) {
+				rb.AddForce (new Vector2 (0, jumpForce));
+			}
+		} 
 	}
-		
+
+	// Update Physics 
 	void FixedUpdate () {
-
 		ground = Physics2D.OverlapCircle (groundChk.position, groundRds, isGround);
-		a.SetBool ("Ground", ground);
-		a.SetFloat ("Vertical Speed", GetComponent<Rigidbody2D> ().velocity.y);
-		a.SetBool ("Climb", climb);
-
-
-		float move = Input.GetAxis ("Horizontal");
-		float velY = GetComponent<Rigidbody2D> ().velocity.y;
-
-		a.SetFloat("speed", Mathf.Abs(move));
-		GetComponent<Rigidbody2D>().velocity = new Vector2(move * maxSpeed, velY);
-
-//		if (climb) {
-//			a.SetTrigger ("Climbing");
-//			climb = false;
-//		}
-
-		if(move > 0 && !right) {
-			Flip();
-		}
-
-		else {
-			if(move < 0 && right)
-				Flip();
-		}
-					
+		anim.SetBool ("Ground", ground);
+		switch (movement) {
+			case Movement.Normal:
+				Move();
+				break;
+			case Movement.Climb:
+				Climb();
+				break;
+		}			
 	}
 
 	void Flip(){
@@ -79,6 +106,40 @@ public class UrtleCode : MonoBehaviour {
 		scale.x *= -1;
 		transform.localScale = scale;
 	}
-		
 
+	void Climb() {
+		rb.gravityScale = 0;
+//		GameObject urtle = GameObject.FindGameObjectWithTag ("Player");
+//		Debug.Log(urtle.transform);
+		if (Input.GetKey (KeyCode.UpArrow)) {
+			transform.Translate (Vector2.up * Time.deltaTime * maxSpeed);
+		} else if (Input.GetKey (KeyCode.DownArrow)) {
+			transform.Translate (Vector2.down * Time.deltaTime * maxSpeed);
+		} else if (Input.GetKeyDown (KeyCode.RightArrow) || Input.GetKeyDown (KeyCode.LeftArrow)) {
+			movement = Movement.Normal;
+			anim.SetBool ("Climb", false);
+			climb = false;
+			rb.gravityScale = 1;
+		}
+	}
+
+
+	void Move() {
+		rb.gravityScale = 1;
+		anim.SetFloat ("Vertical Speed", rb.velocity.y);
+		float move = Input.GetAxis ("Horizontal");
+		float velY = rb.velocity.y;
+
+		anim.SetFloat("Speed", Mathf.Abs(move));
+		rb.velocity = new Vector2(move * maxSpeed, velY);
+
+		if(move > 0 && !right) {
+			Flip();
+		}
+
+		else if(move < 0 && right) {
+			Flip();
+		}
+	}
+		
 }

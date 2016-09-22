@@ -45,7 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Camera.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Ladder.cs" />
      <Compile Include="Assets\Scripts\PuzzlePieceCode.cs" />
      <Compile Include="Assets\Scripts\SharkCode.cs" />
      <Compile Include="Assets\Scripts\UrtleCode.cs" />
