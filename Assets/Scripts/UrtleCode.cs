@@ -31,6 +31,18 @@ public class UrtleCode : MonoBehaviour {
 		if (other.CompareTag ("Ladder")) {
 			climb = true;
 		}
+		if (other.CompareTag("Puzzle Piece")){
+			other.gameObject.GetComponent<PuzzlePieceCode>().collected = true;
+			Destroy(other.gameObject);
+			GameManager.CollectPiece(1);
+		}
+		if (other.CompareTag ("Seaweed")) {
+			GameObject manager = GameObject.Find ("GameManager");
+			GameManager managerScript = manager.GetComponent<GameManager> ();
+			managerScript.timeLeft += 10;
+			Debug.Log (managerScript.timeLeft);
+			Destroy (other.gameObject);
+		}
 	}
 
 	void OnCollisionStay2D (Collision2D col) {

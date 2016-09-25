@@ -45,11 +45,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\Camera.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Ladder.cs" />
+     <Compile Include="Assets\Scripts\LosingScript.cs" />
      <Compile Include="Assets\Scripts\PuzzlePieceCode.cs" />
+     <Compile Include="Assets\Scripts\PuzzlePieceFinalSpawn.cs" />
+     <Compile Include="Assets\Scripts\PuzzlePieceSpawn.cs" />
+     <Compile Include="Assets\Scripts\ReunitingScript.cs" />
      <Compile Include="Assets\Scripts\SharkCode.cs" />
+     <Compile Include="Assets\Scripts\StartSceneScript.cs" />
+     <Compile Include="Assets\Scripts\StoryLineScript.cs" />
      <Compile Include="Assets\Scripts\UrtleCode.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
