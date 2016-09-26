@@ -68,10 +68,13 @@ public class GameManager : MonoBehaviour {
 		_instance.puzzlePiecesToCollect -= numPieces;
 		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.numPiecesPerLevel.ToString();
 		_instance.piecesCollected.text = "Pieces Collected: " + _instance.puzzlePiecesCollected.ToString ();
-		if (_instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
+		if (Application.loadedLevelName == "Level 1" && _instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
 			SceneManager.LoadScene ("Level 2");
 		}
-		if(_instance.puzzlePiecesCollected == _instance.numTotalPuzzlePieces){
+//		if(_instance.puzzlePiecesCollected == _instance.numTotalPuzzlePieces){
+//			WinTheGame();
+//		}
+		if (Application.loadedLevelName == "Level 2" && _instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
 			WinTheGame();
 		}
 	}
