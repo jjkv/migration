@@ -22,55 +22,27 @@ public class SharkCode : MonoBehaviour {
 		if (right) {
 			rb.velocity = new Vector2 (speed, rb.velocity.y);
 		} else {
-			Flip ();
 			rb.velocity = new Vector2 (-speed, rb.velocity.y);
 		}
 			
 	}
 
-	void Flip(){
-		right = !right;
-		Vector3 scale = transform.localScale;
-		scale.x *= -1;
-		transform.localScale = scale;
-	}
+	void OnTriggerEnter2D ( Collider2D other) {
+		if (other.CompareTag ("PlatformA")) {
+			right = true;
+			anim.SetBool ("Right", right);
+		}
 
-	
-//	public float maxSpeed = 13f;
-//	bool right = true; //for flipping
-//	Animator a;
-//
-//	// Use this for initialization
-//	void Start () {
-//		a = GetComponent<Animator> ();
-//	}
-//	
-//	// Update is called once per frame
-//	void Update () {
-//		float move = Input.GetAxis ("Horizontal");
-//		float velY = GetComponent<Rigidbody2D> ().velocity.y;
-//
-//		a.SetFloat("speed", Mathf.Abs(move));
-//		GetComponent<Rigidbody2D>().velocity = new Vector2(move * maxSpeed, velY);
-//
-//		if(move > 0 && !right) {
-//			Flip();
+		if (other.CompareTag ("PlatformB")) {
+			right = false;
+			anim.SetBool ("Right", right);
+		}
+
+//		if (other.CompareTag ("Player")) {
+//			Destroy (other.gameObject);
 //		}
 //
-//		else {
-//			if(move < 0 && right)
-//				Flip();
-//		}
-//
-//	}
-//
-//
-//	void Flip(){
-//		right = !right;
-//		Vector3 scale = transform.localScale;
-//		scale.x *= -1;
-//		transform.localScale = scale;
-//	}
+	}
 
 
 }

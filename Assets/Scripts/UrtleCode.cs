@@ -43,8 +43,6 @@ public class UrtleCode : MonoBehaviour {
 			GameManager.CollectPiece(1);
 		}
 		if (other.CompareTag ("Seaweed")) {
-//			GameObject manager = GameObject.Find ("GameManager");
-//			GameManager managerScript = manager.GetComponent<GameManager> ();
 			managerScript.timeLeft += 10;
 			Debug.Log (managerScript.timeLeft);
 			Destroy (other.gameObject);
@@ -52,28 +50,37 @@ public class UrtleCode : MonoBehaviour {
 
 		if (other.CompareTag ("Border")) {
 			SceneManager.LoadScene ("LosingScene");
-			//set turtle gravity to 0
 		}
 	}
 
 	void OnCollisionStay2D (Collision2D col) {
 		if (col.collider.tag == "Platform") {
 			if (movement == Movement.Climb && Input.GetKey (KeyCode.DownArrow)) {
-				Debug.Log ("open");
-				Physics2D.IgnoreCollision (GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D> (), col.collider);
+				Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), col.collider);
 				ignored = col.collider;
 			}
 		}
+
 	}
-//
-//	void OnCollisionExit2D (Collision2D col) {
-//		if (col.collider.tag == "Platform") {
-//			if (movement == Movement.Climb && Input.GetKey (KeyCode.DownArrow)) {
-//				Debug.Log ("got out");
-//				Physics2D.IgnoreCollision (GameObject.FindGameObjectWithTag ("Player").GetComponent<Collider2D>(), col.collider, false);
-//			}
-//		}
-//	}
+
+	void OnCollisionEnter2D(Collision2D col) {
+		if (col.collider.tag == "rope") {
+			RopeIntersection inter = col.collider.GetComponent<RopeIntersection> ();
+			if (inter) {
+				Debug.Log ("inter open");
+				Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), inter.other.GetComponent<Collider2D> ());
+			}
+		}
+	}
+
+	void OnCollisionExit2D (Collision2D col) {
+		if (col.collider.tag == "rope") {
+			RopeIntersection inter = col.collider.GetComponent<RopeIntersection> ();
+			if (inter) {
+				Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), inter.other.GetComponent<Collider2D> (), false);
+			}
+		}
+	}
 
 	void OnTriggerStay2D (Collider2D other) {
 		if (other.CompareTag("Ladder")) {
@@ -96,6 +103,9 @@ public class UrtleCode : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKey (KeyCode.LeftArrow) || (Input.GetKey (KeyCode.RightArrow))) {
+			anim.SetBool ("Walk", true);
+		}
 		if (climb && (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.DownArrow))) {
 			movement = Movement.Climb;
 			anim.SetBool ("Climb", climb);
@@ -104,6 +114,7 @@ public class UrtleCode : MonoBehaviour {
 			movement = Movement.Normal;
 			anim.SetBool ("Ground", false);
 			if (ground) {
+				Debug.Log ("here");
 				rb.AddForce (new Vector2 (0, jumpForce));
 			}
 		} 

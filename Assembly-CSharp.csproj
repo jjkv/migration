@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\PuzzlePieceFinalSpawn.cs" />
      <Compile Include="Assets\Scripts\PuzzlePieceSpawn.cs" />
      <Compile Include="Assets\Scripts\ReunitingScript.cs" />
+     <Compile Include="Assets\Scripts\RopeIntersection.cs" />
      <Compile Include="Assets\Scripts\SharkCode.cs" />
      <Compile Include="Assets\Scripts\StartSceneScript.cs" />
      <Compile Include="Assets\Scripts\StoryLineScript.cs" />
