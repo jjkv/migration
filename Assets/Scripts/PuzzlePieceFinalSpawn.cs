@@ -27,8 +27,8 @@ public class PuzzlePieceFinalSpawn : MonoBehaviour {
 
 			float screenwidth = Screen.width;
 			float screenheight = Screen.height;
-			Vector3 spawnPosition = new Vector3 (Random.Range(0, screenwidth), Random.Range(0, screenheight), 10);
-			//Vector3 spawnPosition = Camera.main.ScreenToWorldPoint(screenPosition); 
+			Vector3 screenPosition = new Vector3 (Random.Range(0, screenwidth), Random.Range(0, screenheight), 10);
+			Vector3 spawnPosition = Camera.main.ScreenToWorldPoint(screenPosition); 
 			piecesOnScreen[i] = (GameObject) Instantiate(piecePrefabs[i], spawnPosition, Quaternion.identity);
 		}
 		ShowInstructions ();

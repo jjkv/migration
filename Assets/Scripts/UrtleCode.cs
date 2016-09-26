@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class UrtleCode : MonoBehaviour {
 
@@ -50,8 +51,7 @@ public class UrtleCode : MonoBehaviour {
 		}
 
 		if (other.CompareTag ("Border")) {
-//			managerScript.LoseTheGame ();
-			//end game
+			SceneManager.LoadScene ("LosingScene");
 			//set turtle gravity to 0
 		}
 	}
