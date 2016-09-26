@@ -44,8 +44,8 @@ public class UrtleCode : MonoBehaviour {
 		}
 		if (other.CompareTag ("Seaweed")) {
 			managerScript.timeLeft += 10;
-			Debug.Log (managerScript.timeLeft);
 			Destroy (other.gameObject);
+			GameManager.CollectSeaweed ();
 		}
 
 		if (other.CompareTag ("Border")) {

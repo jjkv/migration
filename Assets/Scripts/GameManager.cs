@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 
 	public int numTotalPuzzlePieces;
-	public Text piecesToCollect, piecesCollected, timeRemaining;
+	public Text piecesToCollect, piecesCollected, timeRemaining, seaweedText;
 	public float timeLeft;
 
 	public static GameState State = GameState.Playing;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	private int puzzlePiecesCollected;
 	private int puzzlePiecesToCollect;
 	private int numPiecesPerLevel;
+	private int seaweedCollected;
 	private float minutes;
 	private float seconds;
 
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour {
 		numPiecesPerLevel = numTotalPuzzlePieces / 2;
 		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.numPiecesPerLevel.ToString();
 		_instance.piecesCollected.text = "Pieces Collected: " + _instance.puzzlePiecesCollected.ToString ();
+
+		seaweedCollected = 0;
 
 		minutes = Mathf.Floor(timeLeft / 60); 
 		seconds = timeLeft % 60;
@@ -71,12 +74,17 @@ public class GameManager : MonoBehaviour {
 		if (Application.loadedLevelName == "Level 1" && _instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
 			SceneManager.LoadScene ("Level 2");
 		}
-//		if(_instance.puzzlePiecesCollected == _instance.numTotalPuzzlePieces){
-//			WinTheGame();
-//		}
 		if (Application.loadedLevelName == "Level 2" && _instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
 			WinTheGame();
 		}
+	}
+
+	public static void CollectSeaweed(){
+		_instance.seaweedCollected++;
+		if (Application.loadedLevelName == "Level 1" && _instance.seaweedCollected == 1) {
+			_instance.seaweedText.text = "Seaweed adds 10 seconds!";
+		}
+
 	}
 
 	public static void WinTheGame(){
