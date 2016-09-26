@@ -63,13 +63,11 @@ public class UrtleCode : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter2D(Collision2D col) {
-		if (col.collider.tag == "rope") {
-			RopeIntersection inter = col.collider.GetComponent<RopeIntersection> ();
-			if (inter) {
-				Debug.Log ("inter open");
-				Physics2D.IgnoreCollision (gameObject.GetComponent<Collider2D> (), inter.other.GetComponent<Collider2D> ());
-			}
+	void OnCollisionEnter2D (Collision2D col) {
+		if (col.collider.tag == "TreeHousePlatform") {
+			GameObject scene = GameObject.Find ("SceneManager");
+			ReunitingScript reunionScript = scene.GetComponent<ReunitingScript> ();
+			reunionScript.Reunite ();
 		}
 	}
 
@@ -167,11 +165,17 @@ public class UrtleCode : MonoBehaviour {
 		anim.SetFloat("Speed", Mathf.Abs(move));
 		rb.velocity = new Vector2(move * maxSpeed, velY);
 
+		if (move == 0) {
+			anim.SetBool ("Walk", false);
+		}
+
 		if(move > 0 && !right) {
+			anim.SetBool ("Walk", true);
 			Flip();
 		}
 
 		else if(move < 0 && right) {
+			anim.SetBool ("Walk", true);
 			Flip();
 		}
 	}
