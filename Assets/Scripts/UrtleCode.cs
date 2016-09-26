@@ -19,12 +19,17 @@ public class UrtleCode : MonoBehaviour {
 
 	private Animator anim;
 	private Rigidbody2D rb;
+	private GameObject manager; 
+	private GameManager managerScript;
 
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
+		manager = GameObject.Find ("GameManager");
+		managerScript = manager.GetComponent<GameManager> ();
+
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -37,11 +42,17 @@ public class UrtleCode : MonoBehaviour {
 			GameManager.CollectPiece(1);
 		}
 		if (other.CompareTag ("Seaweed")) {
-			GameObject manager = GameObject.Find ("GameManager");
-			GameManager managerScript = manager.GetComponent<GameManager> ();
+//			GameObject manager = GameObject.Find ("GameManager");
+//			GameManager managerScript = manager.GetComponent<GameManager> ();
 			managerScript.timeLeft += 10;
 			Debug.Log (managerScript.timeLeft);
 			Destroy (other.gameObject);
+		}
+
+		if (other.CompareTag ("Border")) {
+//			managerScript.LoseTheGame ();
+			//end game
+			//set turtle gravity to 0
 		}
 	}
 
