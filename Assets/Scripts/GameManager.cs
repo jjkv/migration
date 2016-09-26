@@ -82,7 +82,8 @@ public class GameManager : MonoBehaviour {
 	public static void CollectSeaweed(){
 		_instance.seaweedCollected++;
 		if (Application.loadedLevelName == "Level 1" && _instance.seaweedCollected == 1) {
-			_instance.seaweedText.text = "Seaweed adds 10 seconds!";
+			//_instance.seaweedText.text = "Seaweed adds 10 seconds!";
+			//System.Collections.Invoke ("DisableText", 5.0f);
 		}
 
 	}
@@ -96,4 +97,9 @@ public class GameManager : MonoBehaviour {
 		State = GameState.Ended_Lost;
 		SceneManager.LoadScene ("LosingScene");
 	}
+
+	void DisableText(){
+		_instance.seaweedText.text = "";
+	}
+
 }
