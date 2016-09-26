@@ -112,7 +112,6 @@ public class UrtleCode : MonoBehaviour {
 			movement = Movement.Normal;
 			anim.SetBool ("Ground", false);
 			if (ground) {
-				Debug.Log ("here");
 				rb.AddForce (new Vector2 (0, jumpForce));
 			}
 		} 

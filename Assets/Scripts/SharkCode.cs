@@ -5,7 +5,9 @@ public class SharkCode : MonoBehaviour {
 
 
 	public float speed;
-	public bool right;	
+	public float bounceForce;
+
+	public bool right;
 
 	private Animator anim;
 
@@ -15,7 +17,6 @@ public class SharkCode : MonoBehaviour {
 	void Start() {
 		anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
-		weaknesses = GameObject.FindGameObjectsWithTag ("shark-weakness");
 	}
 
 
@@ -44,6 +45,7 @@ public class SharkCode : MonoBehaviour {
 		}
 
 		if (other.CompareTag ("Player")) {
+			weaknesses = GameObject.FindGameObjectsWithTag ("shark-weakness");
 			Transform weakness = weaknesses [0].transform;
 			float distance = Vector3.Distance (weakness.position, other.gameObject.transform.position);
 			foreach (GameObject obj in weaknesses) {
@@ -56,9 +58,11 @@ public class SharkCode : MonoBehaviour {
 			}
 			float height = other.transform.position.y - weakness.position.y;
 			if (height > 0) {
+				Debug.Log (bounceForce);
+				other.gameObject.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, bounceForce));
 				Destroy (gameObject);		
 			} else {
-				Destroy (other.gameObject);
+				GameManager.LoseTheGame ();
 			}
 		}
 //
