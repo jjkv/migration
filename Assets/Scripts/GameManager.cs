@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			SceneManager.LoadScene ("StartingMenu");
 		} 
-		if (seconds > 0) {
+		if (seconds > 0 || minutes > 0) {
 			timeLeft -= Time.deltaTime;
 			minutes = Mathf.Floor(timeLeft / 60); 
 			if (minutes < 0) {
