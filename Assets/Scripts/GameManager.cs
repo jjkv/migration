@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 
 	private int puzzlePiecesCollected;
 	private int puzzlePiecesToCollect;
-	private int numPiecesLevel1;
+	private int numPiecesPerLevel;
 	private float minutes;
 	private float seconds;
 
@@ -32,8 +32,8 @@ public class GameManager : MonoBehaviour {
 		_instance = this;
 		puzzlePiecesCollected = 0;
 		puzzlePiecesToCollect = _instance.numTotalPuzzlePieces;
-		numPiecesLevel1 = numTotalPuzzlePieces / 2;
-		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.puzzlePiecesToCollect.ToString();
+		numPiecesPerLevel = numTotalPuzzlePieces / 2;
+		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.numPiecesPerLevel.ToString();
 		_instance.piecesCollected.text = "Pieces Collected: " + _instance.puzzlePiecesCollected.ToString ();
 
 		minutes = Mathf.Floor(timeLeft / 60); 
@@ -66,9 +66,9 @@ public class GameManager : MonoBehaviour {
 	public static void CollectPiece(int numPieces){
 		_instance.puzzlePiecesCollected += numPieces; 
 		_instance.puzzlePiecesToCollect -= numPieces;
-		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.puzzlePiecesToCollect.ToString();
+		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.numPiecesPerLevel.ToString();
 		_instance.piecesCollected.text = "Pieces Collected: " + _instance.puzzlePiecesCollected.ToString ();
-		if (_instance.puzzlePiecesCollected == _instance.numPiecesLevel1) {
+		if (_instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
 			SceneManager.LoadScene ("Level 2");
 		}
 		if(_instance.puzzlePiecesCollected == _instance.numTotalPuzzlePieces){
