@@ -58,7 +58,6 @@ public class SharkCode : MonoBehaviour {
 			}
 			float height = other.transform.position.y - weakness.position.y;
 			if (height > 0) {
-				Debug.Log (bounceForce);
 				other.gameObject.GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0, bounceForce));
 				Destroy (gameObject);		
 			} else {

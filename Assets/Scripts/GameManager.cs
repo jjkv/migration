@@ -12,13 +12,12 @@ public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 
 	public int numTotalPuzzlePieces;
-	public Text piecesToCollect, piecesCollected, timeRemaining, seaweedText;
+	public Text piecesCollected, timeRemaining, seaweedText;
 	public float timeLeft;
 
 	public static GameState State = GameState.Playing;
 
 	private int puzzlePiecesCollected;
-	private int puzzlePiecesToCollect;
 	private int numPiecesPerLevel;
 	private int seaweedCollected;
 	private float minutes;
@@ -32,17 +31,16 @@ public class GameManager : MonoBehaviour {
 		DontDestroyOnLoad (_instance);
 		_instance = this;
 		puzzlePiecesCollected = 0;
-		puzzlePiecesToCollect = _instance.numTotalPuzzlePieces;
 		numPiecesPerLevel = numTotalPuzzlePieces / 2;
-		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.numPiecesPerLevel.ToString();
-		_instance.piecesCollected.text = "Pieces Collected: " + _instance.puzzlePiecesCollected.ToString ();
+		_instance.piecesCollected.text = " : " + _instance.puzzlePiecesCollected.ToString () +" / " +
+			_instance.numPiecesPerLevel.ToString();
 
 		seaweedCollected = 0;
 
 		minutes = Mathf.Floor(timeLeft / 60); 
 		seconds = timeLeft % 60;
 		if(seconds > 59) seconds = 59;
-		_instance.timeRemaining.text = "Time Remaining: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+		_instance.timeRemaining.text = "Time Left: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 	}
 
 	public void Update() {
@@ -57,7 +55,7 @@ public class GameManager : MonoBehaviour {
 			}
 			seconds = timeLeft % 60;
 			if(seconds > 59) seconds = 59;
-			_instance.timeRemaining.text = "Time Remaining: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
+			_instance.timeRemaining.text = "Time Left: " + string.Format ("{0:00} : {1:00}", minutes, seconds);
 
 		}
 		else
@@ -68,9 +66,8 @@ public class GameManager : MonoBehaviour {
 
 	public static void CollectPiece(int numPieces){
 		_instance.puzzlePiecesCollected += numPieces; 
-		_instance.puzzlePiecesToCollect -= numPieces;
-		_instance.piecesToCollect.text = "Pieces to Collect: " + _instance.numPiecesPerLevel.ToString();
-		_instance.piecesCollected.text = "Pieces Collected: " + _instance.puzzlePiecesCollected.ToString ();
+		_instance.piecesCollected.text = " : " + _instance.puzzlePiecesCollected.ToString () +" / " +
+			_instance.numPiecesPerLevel.ToString();
 		if (Application.loadedLevelName == "Level 1" && _instance.puzzlePiecesCollected == _instance.numPiecesPerLevel) {
 			SceneManager.LoadScene ("Level 2");
 		}
@@ -83,7 +80,8 @@ public class GameManager : MonoBehaviour {
 		_instance.seaweedCollected++;
 		if (Application.loadedLevelName == "Level 1" && _instance.seaweedCollected == 1) {
 			//_instance.seaweedText.text = "Seaweed adds 10 seconds!";
-			//System.Collections.Invoke ("DisableText", 5.0f);
+			//StartCoroutine(DisableTextAfter(3.0));
+			//_instance.seaweedText.text = "";
 		}
 
 	}
@@ -97,9 +95,10 @@ public class GameManager : MonoBehaviour {
 		State = GameState.Ended_Lost;
 		SceneManager.LoadScene ("LosingScene");
 	}
+//
+//	IEnumerator DisableTextAfter(float waitTime){
+//		return yield new WaitForSeconds(waitTime);			
+//	}
 
-	void DisableText(){
-		_instance.seaweedText.text = "";
-	}
 
 }

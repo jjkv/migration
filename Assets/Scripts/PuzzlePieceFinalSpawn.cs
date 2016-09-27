@@ -20,24 +20,22 @@ public class PuzzlePieceFinalSpawn : MonoBehaviour {
 	void Start() {
 		piecesOnScreen = new GameObject[piecePrefabs.Length];
 
-		//if(GameManager.State != GameManager.GameState.Ended_Won){
-			//			return;
-			//		}
+		if(GameManager.State != GameManager.GameState.Ended_Won){
+			return;
+		}
 		for (int i=0; i < piecePrefabs.Length; i++){
-
 			float screenwidth = Screen.width;
 			float screenheight = Screen.height;
 			Vector3 screenPosition = new Vector3 (Random.Range(0, screenwidth), Random.Range(0, screenheight), 10);
 			Vector3 spawnPosition = Camera.main.ScreenToWorldPoint(screenPosition); 
 			piecesOnScreen[i] = (GameObject) Instantiate(piecePrefabs[i], spawnPosition, Quaternion.identity);
 		}
-		ShowInstructions ();
+		instructions.text = "Keep clicking the screen to figure out where Jami's family is waiting.";
 	}
 
 	void Update() {
 		if (Input.GetMouseButtonDown(0)) {
 			instructions.text = "";
-			//AssemblePuzzle ();
 			if (pieceNum == piecePrefabs.Length && isCreated == false) {
 				Vector3 spawnPosition = new Vector3 (0, 0, 0);
 				Instantiate (fullPuzzlePrefab, spawnPosition, Quaternion.identity);
@@ -64,29 +62,6 @@ public class PuzzlePieceFinalSpawn : MonoBehaviour {
 			SceneManager.LoadScene ("StartingMenu");
 		}
 	}
-
-	void ShowInstructions (){
-		instructions.text = "Keep clicking the screen to figure out where Jami's family is waiting.";
-	}
-
-//	void AssemblePuzzle(){
-//		for (int i = 0; i < piecesOnScreen.Length; i++) {
-//			Vector3 finalPosition = emptyPlaces [i].gameObject.transform.position;
-//			piecesOnScreen[i].gameObject.transform.position = 
-//				Vector3.MoveTowards(piecesOnScreen[i].gameObject.transform.position, finalPosition, 1000);
-//			pieceNum++;
-//		}
-//		if (pieceNum == piecePrefabs.Length && isCreated == false) {
-//			Vector3 spawnPosition = new Vector3 (0, 0, 0);
-//			Instantiate (fullPuzzlePrefab, spawnPosition, Quaternion.identity);
-//			isCreated = true;
-//			for (int i = 0; i < piecesOnScreen.Length; i++) {
-//				Destroy (piecesOnScreen [i]);
-//			}
-//			FinalAction ();
-//		}
-//	}
-
 		
 
 }

@@ -33,6 +33,24 @@ public class UrtleCode : MonoBehaviour {
 
 	}
 
+	// Update is called once per frame
+	void Update () {
+		if (Input.GetKey (KeyCode.LeftArrow) || (Input.GetKey (KeyCode.RightArrow))) {
+			anim.SetBool ("Walk", true);
+		}
+		if (climb && (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.DownArrow))) {
+			movement = Movement.Climb;
+			anim.SetBool ("Climb", climb);
+		} else if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			rb.gravityScale = 1;
+			movement = Movement.Normal;
+			anim.SetBool ("Ground", false);
+			if (ground) {
+				rb.AddForce (new Vector2 (0, jumpForce));
+			}
+		} 
+	}
+
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.CompareTag ("Ladder")) {
 			climb = true;
@@ -49,7 +67,7 @@ public class UrtleCode : MonoBehaviour {
 		}
 
 		if (other.CompareTag ("Border")) {
-			SceneManager.LoadScene ("LosingScene");
+			GameManager.LoseTheGame ();
 		}
 	}
 
@@ -99,24 +117,6 @@ public class UrtleCode : MonoBehaviour {
 		} 
 	}
 
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKey (KeyCode.LeftArrow) || (Input.GetKey (KeyCode.RightArrow))) {
-			anim.SetBool ("Walk", true);
-		}
-		if (climb && (Input.GetKey (KeyCode.UpArrow) || Input.GetKey (KeyCode.DownArrow))) {
-			movement = Movement.Climb;
-			anim.SetBool ("Climb", climb);
-		} else if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			rb.gravityScale = 1;
-			movement = Movement.Normal;
-			anim.SetBool ("Ground", false);
-			if (ground) {
-				rb.AddForce (new Vector2 (0, jumpForce));
-			}
-		} 
-	}
-
 	// Update Physics 
 	void FixedUpdate () {
 		ground = Physics2D.OverlapCircle (groundChk.position, groundRds, isGround);
@@ -140,8 +140,6 @@ public class UrtleCode : MonoBehaviour {
 
 	void Climb() {
 		rb.gravityScale = 0;
-//		GameObject urtle = GameObject.FindGameObjectWithTag ("Player");
-//		Debug.Log(urtle.transform);
 		if (Input.GetKey (KeyCode.UpArrow)) {
 			transform.Translate (Vector2.up * Time.deltaTime * maxSpeed);
 		} else if (Input.GetKey (KeyCode.DownArrow)) {
