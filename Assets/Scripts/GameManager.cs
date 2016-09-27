@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+	IEnumerator Wait(string text, int t) {
+		_instance.seaweedText.text = text;
+		yield return new WaitForSeconds(t);
+		_instance.seaweedText.text = "";
+	}
+
 	public enum GameState{
 		Playing, Ended_Lost, Ended_Won
-	}
+	} 
 
 	private static GameManager _instance;
 
@@ -17,6 +24,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameState State = GameState.Playing;
 
+	private static bool seaweed = false;
 	private int puzzlePiecesCollected;
 	private int numPiecesPerLevel;
 	private int seaweedCollected;
@@ -62,6 +70,11 @@ public class GameManager : MonoBehaviour {
 		{
 			LoseTheGame();
 		}
+
+		if (seaweed) {
+			StartCoroutine(Wait("Seaweed adds 10 seconds!", 2));
+			seaweed = false;
+		}
 	}
 
 
@@ -83,9 +96,7 @@ public class GameManager : MonoBehaviour {
 	public static void CollectSeaweed(){
 		_instance.seaweedCollected++;
 		if (Application.loadedLevelName == "Level 1" && _instance.seaweedCollected == 1) {
-			//_instance.seaweedText.text = "Seaweed adds 10 seconds!";
-			//StartCoroutine(DisableTextAfter(3.0));
-			//_instance.seaweedText.text = "";
+			seaweed = true;
 		}
 
 	}
