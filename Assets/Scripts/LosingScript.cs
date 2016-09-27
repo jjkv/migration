@@ -13,7 +13,12 @@ public class LosingScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			SceneManager.LoadScene ("StartingMenu");
+			if (Application.loadedLevelName == "LosingScene") {
+				SceneManager.LoadScene ("StartingMenu");
+			}
+			else if (Application.loadedLevelName == "LosingScene2") {
+				SceneManager.LoadScene ("Level 2");
+			}
 		}
 	}
 }

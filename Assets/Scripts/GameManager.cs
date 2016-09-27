@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+
+
 	public static void CollectPiece(int numPieces){
 		_instance.puzzlePiecesCollected += numPieces; 
 		_instance.piecesCollected.text = " : " + _instance.puzzlePiecesCollected.ToString () +" / " +
@@ -75,6 +77,8 @@ public class GameManager : MonoBehaviour {
 			WinTheGame();
 		}
 	}
+
+
 
 	public static void CollectSeaweed(){
 		_instance.seaweedCollected++;
@@ -93,7 +97,13 @@ public class GameManager : MonoBehaviour {
 
 	public static void LoseTheGame(){
 		State = GameState.Ended_Lost;
-		SceneManager.LoadScene ("LosingScene");
+		if (Application.loadedLevelName == "Level 1") {
+			SceneManager.LoadScene ("LosingScene");
+		}
+		else if (Application.loadedLevelName == "Level 2") {
+			SceneManager.LoadScene ("LosingScene2");
+		}
+
 	}
 //
 //	IEnumerator DisableTextAfter(float waitTime){
